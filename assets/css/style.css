@@ -7,6 +7,18 @@
     font-family: '04b_19';
 }
 
+h1 {
+    display: flex;
+    justify-content: center;
+    font-family: '04b_19';
+    font-size: 50px;
+    background: -webkit-linear-gradient(#F6F2A9, #9DE556);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 4px black;
+}
+
 .flappy-content {
     position: relative;
     border: 5px solid dodgerblue;
