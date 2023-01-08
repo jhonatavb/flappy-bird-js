@@ -83,12 +83,47 @@ class Barriers {
     }
 }
 
+class Bird {
+    constructor(heightGame) {
+        let flying = false;
+
+        this.element = createElement('img', 'bird');
+        this.element.src = './assets/imgs/bird.png';
+
+        this.getPositionY = () => parseInt(this.element.style.bottom.split('px')[0], 10);
+        this.setPositionY = y => this.element.style.bottom = `${ y }px`;
+
+        window.onkeydown = () => flying = true;
+        window.onkeyup = () => flying = false;
+
+        this.animate = () => {
+            const newAxisY = this.getPositionY() + (flying ? 8 : -5);
+            const maxFlightHeight = heightGame - (this.element.clientHeight + 8);
+
+            if(newAxisY <= 0) {
+                this.setPositionY(0);
+            } else if(newAxisY >= maxFlightHeight) {
+                this.setPositionY(maxFlightHeight);
+            } else {
+                this.setPositionY(newAxisY);
+            } 
+        };
+
+        this.setPositionY(heightGame / 2);
+    }
+}
+
+
 // testing third part
 // const b = new Barriers(700, 1200, 200, 400);
+// const bird = new Bird(700);
 // const area = document.querySelector('.flappy-content');
+// 
+// area.appendChild(bird.element);
 // b.pairs.forEach(pair => area.appendChild(pair.element));
 // setInterval(() => {
 //     b.animate();
+//     bird.animate();
 // }, 20);
 
 
