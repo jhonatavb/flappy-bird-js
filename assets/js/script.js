@@ -53,5 +53,42 @@ class BarriersContainer {
 // const b = new BarriersContainer(700, 200, 400);
 // document.querySelector('.flappy-content').appendChild(b.element);
 
+class Barriers {
+    constructor(heightGame, widthGame, openingBarriers, distanceBarriers, notifyPoint) {
+        this.pairs = [
+            new BarriersContainer(heightGame, openingBarriers, widthGame),
+            new BarriersContainer(heightGame, openingBarriers, widthGame + distanceBarriers),
+            new BarriersContainer(heightGame, openingBarriers, widthGame + distanceBarriers * 2),
+            new BarriersContainer(heightGame, openingBarriers, widthGame + distanceBarriers * 3)
+        ];
+
+        const DISPLACEMENT_BARRIERS = 3;
+
+        this.animate = () => {
+            this.pairs.forEach(pair => {
+                pair.setPositionX(pair.getPositionX() - DISPLACEMENT_BARRIERS);
+
+                if(pair.getPositionX() < -pair.getWidth()) {
+                    pair.setPositionX(pair.getPositionX() + distanceBarriers * this.pairs.length);
+                    pair.raffleOpening();
+                }
+
+                const halfGameScreen = widthGame / 2;
+                const passedMiddle = pair.getPositionX() + DISPLACEMENT_BARRIERS >= halfGameScreen
+                    && pair.getPositionX() < halfGameScreen;
+
+                if(passedMiddle) notifyPoint();
+            });
+        };
+    }
+}
+
+// testing third part
+// const b = new Barriers(700, 1200, 200, 400);
+// const area = document.querySelector('.flappy-content');
+// b.pairs.forEach(pair => area.appendChild(pair.element));
+// setInterval(() => {
+//     b.animate();
+// }, 20);
 
 
