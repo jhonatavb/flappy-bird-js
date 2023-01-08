@@ -126,4 +126,55 @@ class Bird {
 //     bird.animate();
 // }, 20);
 
+class Progress {
+    constructor() {
+        this.element = createElement('span', 'progress');
+        this.updateScore = points => {
+            this.element.innerHTML = points;
+        };
+
+        this.updateScore(0);
+    }
+}
+
+// testing fourth part
+// const b = new Barriers(700, 1200, 200, 400);
+// const bird = new Bird(700);
+// const area = document.querySelector('.flappy-content');
+// 
+// area.appendChild(bird.element);
+// area.appendChild(new Progress().element);
+// b.pairs.forEach(pair => area.appendChild(pair.element));
+// setInterval(() => {
+//     b.animate();
+//     bird.animate();
+// }, 20);
+
+class PlayFlappyBird {
+    constructor() {
+        let points = 0;
+
+        const gameArea = document.querySelector('.flappy-content');
+        const gameHeight = gameArea.clientHeight;
+        const gameWidth = gameArea.clientWidth;
+
+        const progress = new Progress();
+        const barriers = new Barriers(gameHeight, gameWidth, 200, 400,
+            () => progress.updateScore(++points));
+        const bird = new Bird(gameHeight);
+
+        gameArea.appendChild(progress.element);
+        gameArea.appendChild(bird.element);
+        barriers.pairs.forEach(pair => gameArea.appendChild(pair.element));
+
+        this.start = () => {
+            const timer = setInterval(() => {
+                barriers.animate();
+                bird.animate();
+            }, 20);
+        }
+    }
+}
+
+new PlayFlappyBird().start();
 
