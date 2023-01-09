@@ -150,6 +150,35 @@ class Progress {
 //     bird.animate();
 // }, 20);
 
+function wasCollision(elementA, elementB) {
+    const firstEl = elementA.getBoundingClientRect();
+    const secondEl = elementB.getBoundingClientRect();
+
+    const onHorizontal = firstEl.left + firstEl.width >= secondEl.left
+        && secondEl.left + secondEl.width >= firstEl.left;
+    const onVertically = firstEl.top + firstEl.height >= secondEl.top
+        && secondEl.top + secondEl.height >= firstEl.top;
+
+    return onHorizontal && onVertically;
+}
+
+function collided(bird, barriers) {
+    let collided = false;
+
+    barriers.pairs.forEach(pair => {
+        if(!collided) {
+            const top = pair.upper.element;
+            const bottom = pair.bottom.element;
+
+            collided = wasCollision(bird.element, top)
+                || wasCollision(bird.element, bottom);
+        }
+    });
+
+    return collided;
+}
+
+
 class PlayFlappyBird {
     constructor() {
         let points = 0;
@@ -171,6 +200,10 @@ class PlayFlappyBird {
             const timer = setInterval(() => {
                 barriers.animate();
                 bird.animate();
+
+                if(collided(bird, barriers)) {
+                    clearInterval(timer);
+                }
             }, 20);
         }
     }
